@@ -67,7 +67,7 @@ class Clang(Linter):
             # print(src_path)
             # print(proj_path)
             # print(rel_path)
-            include_dirs = [rel_path + '/' + i for i in include_dirs]
+            include_dirs = [os.path.join(rel_path, i) for i in include_dirs]
             # print(include_dirs)
 
         if include_dirs:
