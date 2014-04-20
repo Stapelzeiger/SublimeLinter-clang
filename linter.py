@@ -12,7 +12,8 @@
 
 import shlex
 from SublimeLinter.lint import Linter, persist
-
+import sublime
+import os
 
 class Clang(Linter):
 
@@ -56,6 +57,15 @@ class Clang(Linter):
         result += settings.get('extra_flags', '')
 
         include_dirs = settings.get('include_dirs', [])
+
+        src_path = os.path.dirname(self.filename)
+        proj_path = os.path.dirname(sublime.active_window().project_file_name())
+        rel_path = os.path.relpath(proj_path, src_path)
+        # print(src_path)
+        # print(proj_path)
+        # print(rel_path)
+        include_dirs = [rel_path + '/' + i for i in include_dirs]
+        # print(include_dirs)
 
         if include_dirs:
             result += ' '.join([' -I ' + shlex.quote(include) for include in include_dirs])
