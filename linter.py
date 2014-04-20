@@ -58,14 +58,17 @@ class Clang(Linter):
 
         include_dirs = settings.get('include_dirs', [])
 
-        src_path = os.path.dirname(self.filename)
-        proj_path = os.path.dirname(sublime.active_window().project_file_name())
-        rel_path = os.path.relpath(proj_path, src_path)
-        # print(src_path)
-        # print(proj_path)
-        # print(rel_path)
-        include_dirs = [rel_path + '/' + i for i in include_dirs]
-        # print(include_dirs)
+        # make include paths relative to project file (if it exitst)
+        proj_file = sublime.active_window().project_file_name()
+        if proj_file:
+            src_path = os.path.dirname(self.filename)
+            proj_path = os.path.dirname(proj_file)
+            rel_path = os.path.relpath(proj_path, src_path)
+            # print(src_path)
+            # print(proj_path)
+            # print(rel_path)
+            include_dirs = [rel_path + '/' + i for i in include_dirs]
+            # print(include_dirs)
 
         if include_dirs:
             result += ' '.join([' -I ' + shlex.quote(include) for include in include_dirs])
