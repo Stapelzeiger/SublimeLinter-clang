@@ -64,11 +64,7 @@ class Clang(Linter):
             src_path = os.path.dirname(self.filename)
             proj_path = os.path.dirname(proj_file)
             rel_path = os.path.relpath(proj_path, src_path)
-            # print(src_path)
-            # print(proj_path)
-            # print(rel_path)
             include_dirs = [os.path.join(rel_path, i) for i in include_dirs]
-            # print(include_dirs)
 
         if include_dirs:
             result += ' '.join([' -I ' + shlex.quote(include) for include in include_dirs])
